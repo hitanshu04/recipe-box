@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(150)
+  ingredients  String   @db.VarChar(1000)
+  steps        String   @db.VarChar(2000)
+  cookingTime  Int
+  cuisine      String   @default("Indian")
+  isFavorite   Boolean  @default(false)
+  imageUrl     String?  @db.VarChar(500) // Auto-fetched dish image
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Custom AI flag
+  isAiGenerated Boolean @default(false)
+
+  @@map("recipes")
+}
